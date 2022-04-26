@@ -1,4 +1,4 @@
-# Next.js + Tailwind CSS Example + Thirdweb SDK
+# Next.js + Tailwind CSS Example + Thirdweb SDK v2
 
 This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
 
@@ -26,7 +26,7 @@ npx create-next-app --example with-tailwindcss with-tailwindcss-app
 yarn create next-app --example with-tailwindcss with-tailwindcss-app
 ```
 
-## Sanity.io Storage
+## Sanity Storage
 Sanity [`sanity.io`](https://sanity.io/)
 
 ```bash
@@ -34,5 +34,5 @@ npm install -g @sanity/cli
 sanity init
 ```
 
-## Thirdweb
+## Thirdweb v2
 Thirdweb [`thirdweb.com`](https://thirdweb.com)
