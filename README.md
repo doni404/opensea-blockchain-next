@@ -29,5 +29,10 @@ yarn create next-app --example with-tailwindcss with-tailwindcss-app
 ## Sanity.io Storage
 Sanity [`sanity.io`](https://sanity.io/)
 
+```bash
+npm install -g @sanity/cli
+sanity init
+```
+
 ## Thirdweb
 Thirdweb [`thirdweb.com`](https://thirdweb.com)
