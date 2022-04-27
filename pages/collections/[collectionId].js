@@ -3,9 +3,8 @@ import NFTCard from '../../components/NFTCard'
 import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { client } from '../../lib/sanityClient';
-import { ethers } from "ethers";
-import { ThirdwebSDK } from '@thirdweb-dev/sdk';
 import { useNFTCollection } from "@thirdweb-dev/react";
+import { useMarketplace } from '@thirdweb-dev/react'
 import { CgWebsite } from 'react-icons/cg';
 import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai';
 import { HiDotsVertical } from 'react-icons/hi';
@@ -36,8 +35,8 @@ const Collection = () => {
     // sdk v1
     // const { provider } = useWeb3()
     // sdk v2
-    const rpcUrl = "https://eth-rinkeby.alchemyapi.io/v2/vG9HBMxfWsVAuTq-meYU0ZdD0BNOGEal";
-    const sdk = new ThirdwebSDK(rpcUrl);
+    // const rpcUrl = "https://eth-rinkeby.alchemyapi.io/v2/vG9HBMxfWsVAuTq-meYU0ZdD0BNOGEal";
+    // const sdk = new ThirdwebSDK(rpcUrl);
     // const contract = sdk.getNFTCollection("0xa2835f77e09784dDEA91a5797670e9901152A6DB");
 
     const router = useRouter()
@@ -66,8 +65,17 @@ const Collection = () => {
 
     // Initialize marketplace contract by passing in the contract address
     const marketplaceAddress = "0xA39c3edc3D1867CC3A9b5FEAB7Afd12f41BF0db3";
-    const nftMarketplace = sdk.getMarketplace(marketplaceAddress);
-    // const nftMarketplace = useNFTMarketplace('0xA39c3edc3D1867CC3A9b5FEAB7Afd12f41BF0db3');
+    const marketPlaceModule = useMarketplace(marketplaceAddress);
+
+    useEffect(() => {
+        if (!marketPlaceModule) return
+            ; (async () => {
+                const listings = await marketPlaceModule.getAll()
+                setListings(listings)
+            })()
+    }, [marketPlaceModule])
+
+    // const nftMarketplace = sdk.getMarketplace(marketplaceAddress);
 
     // // Marketplace
     // const marketPlaceModule = useMemo(() => {
@@ -78,30 +86,7 @@ const Collection = () => {
     //         '0xA39c3edc3D1867CC3A9b5FEAB7Afd12f41BF0db3'
     //     )
     // }, [provider])
-
-    // Get all listings in the collection
-    useEffect(() => {
-        if (nftMarketplace) {
-            // call functions on your contract
-            nftMarketplace
-                .getAllListings()
-                .then((listings) => {
-                    setListings(listings);
-                    console.log("listings: ", listings)
-                })
-                .catch((error) => {
-                    console.error("failed to fetch listings", error);
-                });
-        }
-    }, [nftMarketplace])
-
-    // useEffect(() => {
-    //     if (!marketPlaceModule) return
-    //         ; (async () => {
-    //             setListings(await marketPlaceModule.getAllListings())
-    //         })()
-    // }, [marketPlaceModule])
-
+    
     const fetchCollectionData = async (sanityClient = client) => {
         const query = `*[_type == "marketItems" && contractAddress == "${collectionId}"] {
             "profileImageUrl": profileImage.asset->url,
@@ -128,8 +113,6 @@ const Collection = () => {
         fetchCollectionData()
     }, [collectionId])
 
-    // console.log(router.query)
-    // console.log(router.query.collectionId
     return (
         <div className="overflow-hidden">
             <Header />

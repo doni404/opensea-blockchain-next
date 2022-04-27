@@ -23,12 +23,12 @@ const NFTCard = ({ nftItem, title, listings}) => {
     const [isListed, setIsListed] = useState(false)
     const [price, setPrice] = useState(0)
 
-    // For loop way
+    // // For loop way
     // useEffect(() => {
     //     for (const listing of listings) {
-    //         // console.log("listing.asset.id : ", listing.asset.id._hex)
-    //         // console.log("nftItem.metadata.id : ", nftItem.metadata.id._hex)
-    //         if (listing.asset.id._hex == nftItem.metadata.id._hex) {
+    //         console.log("listing.asset.id : ", listing.asset.id.toString())
+    //         console.log("nftItem.metadata.id : ", nftItem.metadata.id.toString())
+    //         if (listing.asset.id.toString() == nftItem.metadata.id.toString()) {
     //             console.log("truuu")
     //             setIsListed(true)
     //             setPrice(listing.buyoutCurrencyValuePerToken.displayValue)
@@ -39,7 +39,7 @@ const NFTCard = ({ nftItem, title, listings}) => {
 
     // 2nd way
     useEffect(() => {
-        const listing = listings.find((listing) => listing.asset.id._hex == nftItem.metadata.id._hex)
+        const listing = listings.find((listing) => listing.asset.id.toString() == nftItem.metadata.id.toString())
         if (Boolean(listing)) {
             setIsListed(true)
             setPrice(listing.buyoutCurrencyValuePerToken.displayValue)
@@ -51,7 +51,7 @@ const NFTCard = ({ nftItem, title, listings}) => {
             className={style.wrapper}
             onClick={() => {
                 Router.push({
-                    pathname: `/nfts/${nftItem.id}`,
+                    pathname: `/nfts/${nftItem.metadata.id.toString()}`,
                     query: { isListed: isListed },
                 })
             }}
