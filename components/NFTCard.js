@@ -44,6 +44,8 @@ const NFTCard = ({ nftItem, title, listings}) => {
             setIsListed(true)
             setPrice(listing.buyoutCurrencyValuePerToken.displayValue)
         }
+
+        console.log(nftItem)
     }, [listings, nftItem])
 
     return (
@@ -51,7 +53,7 @@ const NFTCard = ({ nftItem, title, listings}) => {
             className={style.wrapper}
             onClick={() => {
                 Router.push({
-                    pathname: `/nfts/${nftItem.metadata.id.toString()}`,
+                    pathname: `/assets/${nftItem.metadata.id.toString()}`,
                     query: { isListed: isListed },
                 })
             }}

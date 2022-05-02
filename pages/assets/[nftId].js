@@ -16,10 +16,12 @@ const style = {
     detailsContainer: `flex-[2] ml-4`,
 }
 
-const Nft = () => {
+const Nfts = () => {
     const [selectedNft, setSelectedNft] = useState()
     const [listings, setListings] = useState([])
     const router = useRouter()
+
+    console.log("router : ", router)
 
     // get an instance of your own collection contract
     const nftCollection = useNFTCollection("0xa2835f77e09784dDEA91a5797670e9901152A6DB");
@@ -80,4 +82,4 @@ const Nft = () => {
     )
 }
 
-export default Nft
+export default Nfts
