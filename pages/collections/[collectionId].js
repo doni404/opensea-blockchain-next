@@ -64,7 +64,7 @@ const Collection = () => {
     }, [nftCollection]);
 
     // Initialize marketplace contract by passing in the contract address
-    const marketplaceAddress = "0xA39c3edc3D1867CC3A9b5FEAB7Afd12f41BF0db3";
+    const marketplaceAddress = "0x422E976aCC779AaCecB65eA1921989E074EC0094";
     const marketPlaceModule = useMarketplace(marketplaceAddress);
 
     useEffect(() => {

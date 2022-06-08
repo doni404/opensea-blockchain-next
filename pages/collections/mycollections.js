@@ -3,6 +3,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import { useRouter } from 'next/router';
 import { useNFTCollection, useAddress, useSigner } from "@thirdweb-dev/react";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 
@@ -20,18 +21,17 @@ const style = {
     button: `mt-6 ml-6`,
 }
 
-// const contracts = [
-//     { address: "0x422E976aCC779AaCecB65eA1921989E074EC0094", contractType: "nft-collection" },
-//     { address: "0xa725ef5784f6CBC5542308E26ACE54b61C3d7d7A", contractType: "nft-collection" },
-// ]
+const contracts = [
+    { id: 1, name: 'Test Minting', unavailable: false },
+    { id: 2, name: 'Test Minting 2', unavailable: false },
+]
 
 const Create = () => {
 
     const router = useRouter()
-    const contracts = useState([])
-    const [contractList, setContractList] = useState([])
     const [image, setImage] = useState(null);
-    const [createObjectURL, setCreateObjectURL] = useState(null)
+    const [contractList, setContractList] = useState([]);
+    const [createObjectURL, setCreateObjectURL] = useState(null);
     const [selectedContract, setSelectedContract] = useState(contracts[0])
 
     const uploadToClient = (event) => {
@@ -58,27 +58,19 @@ const Create = () => {
     // Address of the wallet you want to mint the NFT to
     const walletAddress = "0x0C2756b6C81ba7A05E5282BD8be2F3d585Fd8406";
     // const address = useAddress(walletAddress);
-    const signer = useSigner();
-    // console.log('signer ', signer);
+    // const signer = useSigner();
     const thirdweb = new ThirdwebSDK("rinkeby");
 
     useEffect(() => {
+
         getContracts();
 
-        // getNFTs() 
     }, [])
 
-    async function getContracts() {
-        console.log('address ', walletAddress)
-        // const contracts = await thirdweb.getContractList(walletAddress);
-        contracts = await thirdweb.getContractList(walletAddress);
-        console.log('getContracts', contracts);
-        setContractList(contracts)
-        setSelectedContract(contracts[0]);
-    }
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     // access your deployed contracts
-    const nftCollection = useNFTCollection(selectedContract.address)
+    const nftCollection = useNFTCollection("0x422E976aCC779AaCecB65eA1921989E074EC0094")
 
     async function getNFTs() {
         // const thirdweb = new ThirdwebSDK(signer);
@@ -87,8 +79,19 @@ const Create = () => {
         return nfts;
     }
 
+    async function getContracts() {
+       
+        // const contract = null;
+        console.log('address ', walletAddress);
+        // thirdweb.getContractList(walletAddress).then((contracts) => {
+        //     contract= contracts;
+        // });
+        contracts = await thirdweb.getContractList(walletAddress);
+        console.log('getContracts', contracts)
+        return contracts;
+    }
+
     const mintItem = async e => {
-        console.log(selectedContract.address)
         // Execute transactions on your contracts from the connected wallet
         await nftCollection.mintTo(walletAddress, {
             name: itemName.value,
@@ -101,15 +104,52 @@ const Create = () => {
     return (
         <div className="overflow-hidden">
             <Header />
-            <div className={style.title}>Create New Item </div>
+            <div className={style.title}>My Collection </div>
             <div className={style.desc}>
-                <span className={style.requiredMark}>*</span>
-                Required fields </div>
-            <div className={style.fieldName}>
-                Image, Video, Audio, or 3D Model
-                <span className={style.requiredMark}> *</span>
+                Create, curate, and manage collections of unique NFTs to share and sell.</div>
+            <div className={style.button}>
+                <button
+                    className="btn btn-primary bg-white px-5"
+                    type="submit"
+                    onClick={mintItem}>
+                    Create Collection
+                </button>
             </div>
-            <div className={style.filedesc}>
+            <table class="shadow-lg bg-white border-collapse mt-6 ml-6">
+                <tr>
+                    <th class="bg-blue-100 border text-left px-8 py-4">Name</th>
+                    <th class="bg-blue-100 border text-left px-8 py-4">Network</th>
+                    <th class="bg-blue-100 border text-left px-8 py-4">Address</th>
+                    <th class="bg-blue-100 border text-left px-8 py-4">Action</th>
+                </tr>
+                <tr>
+                    <td class="border px-8 py-4">Test Minting</td>
+                    <td class="border px-8 py-4">NFT Collection</td>
+                    <td class="border px-8 py-4">Rinkeby</td>
+                    <td class="border px-8 py-4">
+                        <button
+                            className="btn btn-primary text-white bg-slate-700 px-5"
+                            type="submit"
+                            onClick={mintItem}>
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border px-8 py-4">Test Minting 2</td>
+                    <td class="border px-8 py-4">NFT Collection</td>
+                    <td class="border px-8 py-4">Rinkeby</td>
+                    <td class="border px-8 py-4">
+                        <button
+                            className="btn btn-primary text-white bg-slate-700 px-5"
+                            type="submit"
+                            onClick={mintItem}>
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            {/* <div className={style.filedesc}>
                 File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max size: 100 MB</div>
             <img className={style.img} src={createObjectURL} />
             <input className={style.fileInput} type="file" name="myImage" onChange={uploadToClient} />
@@ -130,11 +170,11 @@ const Create = () => {
             <div className={style.fieldName}>
                 Collection
             </div>
-            <div className="mt-3 mb-10 ml-6 w-1/4">
+            <div className="mt-3 mb-10 ml-6 h-6 w-1/4">
                 <Listbox value={selectedContract} onChange={setSelectedContract}>
                     <div className="relative mt-1">
                         <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                            <span className="block truncate">{selectedContract.address}</span>
+                            <span className="block truncate">{selectedContract.name}</span>
                             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                 <SelectorIcon
                                     className="h-5 w-5 text-gray-400"
@@ -149,7 +189,7 @@ const Create = () => {
                             leaveTo="opacity-0"
                         >
                             <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                {contractList.map((contract, contractIdx) => (
+                                {contracts.map((contract, contractIdx) => (
                                     <Listbox.Option
                                         key={contractIdx}
                                         className={({ active }) =>
@@ -164,7 +204,7 @@ const Create = () => {
                                                     className={`block truncate ${selectedContract ? 'font-medium' : 'font-normal'
                                                         }`}
                                                 >
-                                                    {contract.address}
+                                                    {contract.name}
                                                 </span>
                                                 {selectedContract ? (
                                                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
@@ -180,14 +220,8 @@ const Create = () => {
                     </div>
                 </Listbox>
             </div>
-            <div className={style.button}>
-                <button
-                    className="btn btn-primary bg-white px-5"
-                    type="submit"
-                    onClick={mintItem}>
-                    Create
-                </button>
-            </div>
+            */}
+
         </div>
     )
 }

@@ -6,6 +6,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@headlessui/react": "^1.6.1",
+    "@heroicons/react": "^1.0.6",
     "@sanity/cli": "^2.29.6",
     "@sanity/client": "^3.3.0",
     "@thirdweb-dev/react": "^2.0.7",
