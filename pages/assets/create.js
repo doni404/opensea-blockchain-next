@@ -1,7 +1,7 @@
 import Header from '../../components/Header';
 import React, { useEffect, useState, Fragment } from 'react';
 import { useRouter } from 'next/router';
-import { useNFTCollection, useAddress, useSigner } from "@thirdweb-dev/react";
+import { useNFTCollection, useAddress, useMetamask} from "@thirdweb-dev/react";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
@@ -31,9 +31,15 @@ const Create = () => {
     const contracts = useState([])
     const [contractList, setContractList] = useState([])
     const [image, setImage] = useState(null);
-    const [createObjectURL, setCreateObjectURL] = useState(null)
     const [selectedContract, setSelectedContract] = useState(contracts[0])
+    const [createObjectURL, setCreateObjectURL] = useState(null);
+    // Read the connected wallet's address (undefined if no connected wallet)
+    const address = useAddress();
+    // Function to connect the user's MetaMask wallet.
+    const connectWallet = useMetamask();
 
+    const walletAddress = "0x0C2756b6C81ba7A05E5282BD8be2F3d585Fd8406";
+    // Connect to your smart contract using the React SDK's hooks
     const uploadToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
             const i = event.target.files[0];
@@ -43,33 +49,22 @@ const Create = () => {
         }
     };
 
-    // // Initialize marketplace contract by passing in the contract address
-    // const marketplaceAddress = "0xA39c3edc3D1867CC3A9b5FEAB7Afd12f41BF0db3";
-    // const marketPlaceModule = useMarketplace(marketplaceAddress);
-
-    // useEffect(() => {
-    //     if (!marketPlaceModule) return
-    //         ; (async () => {
-    //             const listings = await marketPlaceModule.getAll()
-    //             setListings(listings)
-    //         })()
-    // }, [marketPlaceModule])
 
     // Address of the wallet you want to mint the NFT to
-    const walletAddress = "0x0C2756b6C81ba7A05E5282BD8be2F3d585Fd8406";
     // const address = useAddress(walletAddress);
-    const signer = useSigner();
+  
     // console.log('signer ', signer);
     const thirdweb = new ThirdwebSDK("rinkeby");
 
     useEffect(() => {
         getContracts();
-
-        // getNFTs() 
     }, [])
 
     async function getContracts() {
-        console.log('address ', walletAddress)
+        if (!address) {
+            connectWallet();
+        }
+        // console.log('address ', address)
         // const contracts = await thirdweb.getContractList(walletAddress);
         contracts = await thirdweb.getContractList(walletAddress);
         console.log('getContracts', contracts);
@@ -79,18 +74,13 @@ const Create = () => {
 
     // access your deployed contracts
     const nftCollection = useNFTCollection(selectedContract.address)
-
-    async function getNFTs() {
-        // const thirdweb = new ThirdwebSDK(signer);
-        const nfts = await nftCollection.getAll()
-        console.log('getNFTs', nfts)
-        return nfts;
-    }
-
+   
     const mintItem = async e => {
-        console.log(selectedContract.address)
+        if (!address) {
+            connectWallet();
+        }
         // Execute transactions on your contracts from the connected wallet
-        await nftCollection.mintTo(walletAddress, {
+        await nftCollection.mintTo(address, {
             name: itemName.value,
             description: itemDescription.value,
             image: image // This can be an image url or file
