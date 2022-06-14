@@ -1,8 +1,9 @@
 import Header from '../../components/Header';
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useNFTCollection, useAddress, useMetamask } from "@thirdweb-dev/react";
+import { useSigner, useAddress, useMetamask } from "@thirdweb-dev/react";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+import Link from 'next/link'
 
 const style = {
     title: `text-4xl font-bold mb-4 text-white mt-6 ml-6`,
@@ -20,20 +21,19 @@ const style = {
 
 const MyCollection = () => {
 
-    const router = useRouter()
     const contracts = useState([])
     const [contractList, setContractList] = useState([]);
-    const [createObjectURL, setCreateObjectURL] = useState(null);
-    const [selectedContract, setSelectedContract] = useState(contracts[0])
 
     const address = useAddress();
     // Function to connect the user's MetaMask wallet.
     const connectWallet = useMetamask();
     // Address of the wallet you want to mint the NFT to
     const walletAddress = "0x0C2756b6C81ba7A05E5282BD8be2F3d585Fd8406";
-    // const address = useAddress(walletAddress);
+    // const address = useAddress();
+    const sdk = new ThirdwebSDK("rinkeby");
     // const signer = useSigner();
-    const thirdweb = new ThirdwebSDK("rinkeby");
+
+    // const sdk = ThirdwebSDK.fromSigner(signer);
 
     useEffect(() => {
 
@@ -46,11 +46,24 @@ const MyCollection = () => {
         if (!address) {
             connectWallet();
         }
-        contracts = await thirdweb.getContractList(walletAddress);
+        contracts = await sdk.getContractList(walletAddress);
         console.log('getContracts', contracts);
         setContractList(contracts)
-        setSelectedContract(contracts[0]);
     }
+
+
+    async function createContract() {
+        if (!address) {
+            connectWallet();
+        }
+
+        console.log(address);
+        await sdk.deployer.deployNFTCollection({
+            name: "My Collection",
+            primary_sale_recipient: address,
+        })
+    };
+
 
 
 
@@ -60,14 +73,16 @@ const MyCollection = () => {
             <div className={style.title}>My Collection </div>
             <div className={style.desc}>
                 Create, curate, and manage collections of unique NFTs to share and sell.</div>
-            <div className={style.button}>
-                <button
-                    className="btn btn-primary bg-white px-5"
-                    type="submit"
-                >
-                    Create Collection
-                </button>
-            </div>
+            <Link href="/collections/create">
+                <div className={style.button}>
+                    <button
+                        className="btn btn-primary bg-white px-5"
+                        type="submit"
+                        >
+                        Create Collection
+                    </button>
+                </div>
+            </Link>
             <table class="shadow-lg bg-white border-collapse mt-6 ml-6">
                 <tr>
                     <th class="bg-blue-100 border text-left px-8 py-4">Address</th>
