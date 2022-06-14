@@ -99,32 +99,6 @@ const Create = () => {
 
     };
 
-    // async function createContract() {
-    //     if (!address) {
-    //         connectWallet();
-    //     }
-
-    //     const contractAddress = await sdk.deployer.deployNFTCollection({
-    //         name: itemName.value,
-    //         primary_sale_recipient: address,
-    //         description : itemDescription.value
-    //     });
-    //     console.log('contract address ', contractAddress);
-    // };
-
-    // const mintItem = async e => {
-    //     if (!address) {
-    //         connectWallet();
-    //     }
-    //     // Execute transactions on your contracts from the connected wallet
-    //     await nftCollection.mintTo(address, {
-    //         name: itemName.value,
-    //         description: itemDescription.value,
-    //         image: image // This can be an image url or file
-    //     });
-
-    // };
-
     return (
         <div className="overflow-hidden">
             <Header />
