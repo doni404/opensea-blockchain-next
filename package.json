@@ -10,7 +10,7 @@
     "@heroicons/react": "^1.0.6",
     "@sanity/cli": "^2.29.6",
     "@sanity/client": "^3.3.0",
-    "@thirdweb-dev/react": "^2.4.7",
+    "@thirdweb-dev/react": "^2.4.8",
     "@thirdweb-dev/sdk": "^2.3.23",
     "ethers": "^5.6.9",
     "next": "latest",
