@@ -65,7 +65,7 @@ const Collection = () => {
 
     // Initialize marketplace contract by passing in the contract address
     //0x422E976aCC779AaCecB65eA1921989E074EC0094 omni
-    const marketplaceAddress = "0x9363940402E1e6d2EB0bc45872E0F78A2601657B";
+    const marketplaceAddress = "0x684E826A0B25B6B29D88Dc21D589d1bB8680DE92";
     const marketPlaceModule = useMarketplace(marketplaceAddress);
     //an optional method to get active listing
     // const sdk = new ThirdwebSDK("rinkeby");

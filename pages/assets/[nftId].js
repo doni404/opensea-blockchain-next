@@ -22,7 +22,7 @@ const Nfts = () => {
     const router = useRouter()
     // get an instance of your own collection contract
     // const nftCollection = useNFTCollection("0xa2835f77e09784dDEA91a5797670e9901152A6DB");
-    const nftCollection = useNFTCollection("0xa725ef5784f6CBC5542308E26ACE54b61C3d7d7A");
+    const nftCollection = useNFTCollection("0xd4702C073353Bf24714516fEbb3AC388fA87d6DA");
 
     useEffect(() => {
         if (nftCollection) {
@@ -42,7 +42,7 @@ const Nfts = () => {
 
     // Initialize marketplace contract by passing in the contract address
     // const marketplaceAddress = "0xA39c3edc3D1867CC3A9b5FEAB7Afd12f41BF0db3";omni
-    const marketplaceAddress = "0x9363940402E1e6d2EB0bc45872E0F78A2601657B";
+    const marketplaceAddress = "0x684E826A0B25B6B29D88Dc21D589d1bB8680DE92";
     const marketPlaceModule = useMarketplace(marketplaceAddress);
 
     // Get all listings in the collection

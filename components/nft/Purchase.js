@@ -89,7 +89,7 @@ const MakeOffer = ({ isListed, selectedNft, listings, marketPlaceModule }) => {
     //         });
     // }
     //new
-    const marketplace = useMarketplace("0x9363940402E1e6d2EB0bc45872E0F78A2601657B")
+    const marketplace = useMarketplace("0x684E826A0B25B6B29D88Dc21D589d1bB8680DE92")
     const directListing = useCreateDirectListing(marketplace)
     const buyOut = useBuyNow(marketplace)
 
@@ -128,7 +128,7 @@ const MakeOffer = ({ isListed, selectedNft, listings, marketPlaceModule }) => {
         // Data of the listing you want to create
         const listing = {
             // address of the contract the asset you want to list is on
-            assetContractAddress: "0xa725ef5784f6CBC5542308E26ACE54b61C3d7d7A",
+            assetContractAddress: "0xd4702C073353Bf24714516fEbb3AC388fA87d6DA",
             // token ID of the asset you want to list
             tokenId: selectedNft.metadata.id.toString(),
             // in how many seconds will the listing open up
