@@ -28,9 +28,9 @@ const MyCollection = () => {
     // Function to connect the user's MetaMask wallet.
     const connectWallet = useMetamask();
     // Address of the wallet you want to mint the NFT to
-    const walletAddress = "0x0C2756b6C81ba7A05E5282BD8be2F3d585Fd8406";
+    const walletAddress = "0xA770a11B87A06845E875904Ad40039052666AFEd";
     // const address = useAddress();
-    const sdk = new ThirdwebSDK("rinkeby");
+    const sdk = new ThirdwebSDK("mainnet");
     // const signer = useSigner();
 
     // const sdk = ThirdwebSDK.fromSigner(signer);

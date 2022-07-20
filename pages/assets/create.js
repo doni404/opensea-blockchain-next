@@ -34,11 +34,10 @@ const Create = () => {
     const [selectedContract, setSelectedContract] = useState(contracts[0])
     const [createObjectURL, setCreateObjectURL] = useState(null);
     // Read the connected wallet's address (undefined if no connected wallet)
-    const address = useAddress();
+    // const address = useAddress();
     // Function to connect the user's MetaMask wallet.
     const connectWallet = useMetamask();
 
-    const walletAddress = "0x0C2756b6C81ba7A05E5282BD8be2F3d585Fd8406";
     // Connect to your smart contract using the React SDK's hooks
     const uploadToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
@@ -50,36 +49,15 @@ const Create = () => {
     };
 
 
-    // Address of the wallet you want to mint the NFT to
-    // const address = useAddress(walletAddress);
-  
-    // console.log('signer ', signer);
-    const thirdweb = new ThirdwebSDK("rinkeby");
+    const sdk = new ThirdwebSDK("ethereum");
+    const contract = sdk.getNFTCollection("0xd4702C073353Bf24714516fEbb3AC388fA87d6DA");
 
-    useEffect(() => {
-        getContracts();
-    }, [])
+    const address = "0xA770a11B87A06845E875904Ad40039052666AFEd";
 
-    async function getContracts() {
-        if (!address) {
-            connectWallet();
-        }
-        // console.log('address ', address)
-        // const contracts = await thirdweb.getContractList(walletAddress);
-        contracts = await thirdweb.getContractList(walletAddress);
-        console.log('getContracts', contracts);
-        setContractList(contracts)
-        setSelectedContract(contracts[0]);
-    }
+    const nftCollection = useNFTCollection("0xd4702C073353Bf24714516fEbb3AC388fA87d6DA")
 
-    // access your deployed contracts
-    const nftCollection = useNFTCollection(selectedContract.address)
-   
     const mintItem = async e => {
-        if (!address) {
-            connectWallet();
-        }
-        // Execute transactions on your contracts from the connected wallet
+     
         await nftCollection.mintTo(address, {
             name: itemName.value,
             description: itemDescription.value,
@@ -117,7 +95,7 @@ const Create = () => {
                 <textarea id="itemDescription" className={style.inputText}
                     placeholder="Description" />
             </div>
-            <div className={style.fieldName}>
+            {/* <div className={style.fieldName}>
                 Collection
             </div>
             <div className="mt-3 mb-10 ml-6 w-1/4">
@@ -169,7 +147,7 @@ const Create = () => {
                         </Transition>
                     </div>
                 </Listbox>
-            </div>
+            </div> */}
             <div className={style.button}>
                 <button
                     className="btn btn-primary bg-white px-5"
