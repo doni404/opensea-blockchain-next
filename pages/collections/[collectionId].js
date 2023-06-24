@@ -3,11 +3,11 @@ import NFTCard from '../../components/NFTCard'
 import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { client } from '../../lib/sanityClient';
-import { useNFTCollection } from "@thirdweb-dev/react";
-import { useMarketplace } from '@thirdweb-dev/react'
+import { useNFTCollection,useMarketplaceListings,useMarketplace } from "@thirdweb-dev/react";
 import { CgWebsite } from 'react-icons/cg';
 import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai';
 import { HiDotsVertical } from 'react-icons/hi';
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 const style = {
     bannerImageContainer: `h-[25vh] w-screen overflow-hidden flex justify-center items-center`,
@@ -64,29 +64,23 @@ const Collection = () => {
     }, [nftCollection]);
 
     // Initialize marketplace contract by passing in the contract address
-    const marketplaceAddress = "0xA39c3edc3D1867CC3A9b5FEAB7Afd12f41BF0db3";
+    //0x422E976aCC779AaCecB65eA1921989E074EC0094 omni
+    const marketplaceAddress = "0x684E826A0B25B6B29D88Dc21D589d1bB8680DE92";
     const marketPlaceModule = useMarketplace(marketplaceAddress);
+    //an optional method to get active listing
+    // const sdk = new ThirdwebSDK("rinkeby");
+    // const contract = sdk.getMarketplace(marketplaceAddress);
 
     useEffect(() => {
         if (!marketPlaceModule) return
-            ; (async () => {
-                const listings = await marketPlaceModule.getAll()
+             (async () => {
+                // const listings = await contract.getActiveListings(); an optional method to get active listing
+                const listings = await marketPlaceModule.getAll();
+                console.log('listings ',listings)
                 setListings(listings)
             })()
     }, [marketPlaceModule])
 
-    // const nftMarketplace = sdk.getMarketplace(marketplaceAddress);
-
-    // // Marketplace
-    // const marketPlaceModule = useMemo(() => {
-    //     if (!provider) return
-
-    //     const sdk = new ThirdwebSDK(provider);
-    //     return sdk.getMarketplace(
-    //         '0xA39c3edc3D1867CC3A9b5FEAB7Afd12f41BF0db3'
-    //     )
-    // }, [provider])
-    
     const fetchCollectionData = async (sanityClient = client) => {
         const query = `*[_type == "marketItems" && contractAddress == "${collectionId}"] {
             "profileImageUrl": profileImage.asset->url,
@@ -186,7 +180,7 @@ const Collection = () => {
                         <div className={style.collectionStat}>
                             <div className={style.statValue}>
                                 <img
-                                    src="https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg"
+                                    src="https://openseauserdata.com/files/6f8e2979d428180222796ff4a33ab929.svg"
                                     alt="eth"
                                     className={style.ethLogo}
                                 />
@@ -197,7 +191,7 @@ const Collection = () => {
                         <div className={style.collectionStat}>
                             <div className={style.statValue}>
                                 <img
-                                    src="https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg"
+                                    src="https://openseauserdata.com/files/6f8e2979d428180222796ff4a33ab929.svg"
                                     alt="eth"
                                     className={style.ethLogo}
                                 />

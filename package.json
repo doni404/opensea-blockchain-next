@@ -1,16 +1,18 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "dev": "next dev -p 3002",
+    "build": "next build -p 3008",
+    "start": "next start -p 3000"
   },
   "dependencies": {
+    "@headlessui/react": "^1.6.1",
+    "@heroicons/react": "^1.0.6",
     "@sanity/cli": "^2.29.6",
     "@sanity/client": "^3.3.0",
-    "@thirdweb-dev/react": "^2.0.7",
-    "@thirdweb-dev/sdk": "^2.0.37",
-    "ethers": "^5.6.4",
+    "@thirdweb-dev/react": "^2.5.1",
+    "@thirdweb-dev/sdk": "^2.3.31",
+    "ethers": "^5.6.9",
     "next": "latest",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

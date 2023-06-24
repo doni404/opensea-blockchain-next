@@ -19,41 +19,45 @@ const style = {
 }
 
 const Header = () => {
-    return (
-      <div className={style.wrapper}>
-        <Link href="/">
-          <div className={style.logoContainer}>
-            <Image src={openseaLogo} height={40} width={40} />
-            <div className={style.logoText}>Opensea</div>
-          </div>
-        </Link>
-        <div className={style.searchBar}>
-          <div className={style.searchIcon}>
-            <AiOutlineSearch />
-          </div>
-          <input
-            className={style.searchInput}
-            placeholder="Search items, collections, and accounts"
-          />
+  return (
+    <div className={style.wrapper}>
+      <Link href="/">
+        <div className={style.logoContainer}>
+          <Image src={openseaLogo} height={40} width={40} />
+          <div className={style.logoText}>Opensea</div>
         </div>
-        <div className={style.headerItems}>
-          <Link href="/collections/0xa2835f77e09784dDEA91a5797670e9901152A6DB">
-            <div className={style.headerItem}> Collections </div>
-          </Link>
-          <div className={style.headerItem}> Stats </div>
-          <div className={style.headerItem}> Resources </div>
-          <Link href="/assets/create">
-            <div className={style.headerItem}> Create </div>
-          </Link>
+      </Link>
+      <div className={style.searchBar}>
+        <div className={style.searchIcon}>
+          <AiOutlineSearch />
+        </div>
+        <input
+          className={style.searchInput}
+          placeholder="Search items, collections, and accounts"
+        />
+      </div>
+      <div className={style.headerItems}>
+      {/* <Link href="/collections/0xa2835f77e09784dDEA91a5797670e9901152A6DB"> */}
+        <Link href="/collections/0xd4702C073353Bf24714516fEbb3AC388fA87d6DA">
+          <div className={style.headerItem}> Collections </div>
+        </Link>
+        <div className={style.headerItem}> Stats </div>
+        <div className={style.headerItem}> Resources </div>
+        <Link href="/assets/create">
+          <div className={style.headerItem}> Create </div>
+        </Link>
+        <Link href="/collections/mycollections">
           <div className={style.headerIcon}>
             <CgProfile />
           </div>
-          <div className={style.headerIcon}>
-            <MdOutlineAccountBalanceWallet />
-          </div>
+        </Link>
+
+        <div className={style.headerIcon}>
+          <MdOutlineAccountBalanceWallet />
         </div>
       </div>
-    )
+    </div>
+  )
 }
 
 export default Header
